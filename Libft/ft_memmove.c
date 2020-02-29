@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 21:02:22 by jhur              #+#    #+#             */
-/*   Updated: 2020/02/26 15:08:29 by jhur             ###   ########.fr       */
+/*   Updated: 2020/02/29 12:21:43 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,24 @@ void    *ft_memmove(void *dst, const void *src, size_t len)
 {
     unsigned char *ptr_dst;
     const unsigned char *ptr_src;
-
+    size_t i;
+    
     ptr_dst = (unsigned char *)dst;
     ptr_src = (unsigned char *)src;
     
-    if(ptr_dst <= ptr_src)//if memory not overlapped
+    if(ptr_dst < ptr_src)
     {
-        while(len--)
-            *ptr_dst++ = *ptr_src;//copy like memcpy
+        i = 0;
+        while(i < len)
+        {
+            ptr_dst[i] = ptr_src[i];
+            i++;
+        }
     }
-    else//memory overlapped
+    else
     {
-        ptr_dst = ptr_dst + len - 1;//make enough space
-        ptr_src = ptr_src + len - 1;
-        while(len--)
-            *ptr_dst-- = *ptr_src--;//copy from the last
+        while(len-- > 0)  
+            ptr_dst[len] = ptr_src[len];
     }
     return(dst);
 }
