@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 19:26:09 by jhur              #+#    #+#             */
-/*   Updated: 2020/03/05 18:05:53 by jhur             ###   ########.fr       */
+/*   Updated: 2020/03/05 19:32:09 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int has_s_res(char **s_res, char **line, char *tmp)
     else
     {
         i = 0;
-        while((*s_res)[i] != '\n')
+        while((*s_res)[i] != '\n' && (*s_res)[i] != '\0')
         {
             tmp[i] = (*s_res)[i];
             i++;
@@ -95,9 +95,9 @@ int get_next_line(int fd, char **line)
         if(has_s_res(&s_res, line, tmp) == 1)
             return(1);
     }
-    while((res = read(fd, buf, BUFFER_SIZE)) > 0)
+    while((res = read(fd, buf, BUFFER_SIZE)) > 0)//읽어서 바이트수만큼 res에 저장
     {
-        buf[res] = '\0';
+        buf[res] = '\0'; 
         if(has_newline(buf, tmp, &s_res, line) == 1)
             return(1);
         if(!(*line = ft_strjoin(*line, buf)))
