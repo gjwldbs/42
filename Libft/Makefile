@@ -1,20 +1,20 @@
 .SUFFIXES : .c .o
 
-TARGET = libft.a
+NAME = libft.a
 SOURCES = $(wildcard *.c)
 OBJECTS = $(SOURCES:.c=.o)
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -c
 
-all: $(TARGET)
+all: $(NAME)
 	
-$(TARGET): $(OBJECTS)
+$(NAME): $(OBJECTS)
 	ar cr $@ $(OBJECTS)
 
 clean:
 	rm -f $(OBJECTS)
 
 fclean: clean
-	rm -f $(TARGET)
+	rm -f $(NAME)
 
 re: fclean all

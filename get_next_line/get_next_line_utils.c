@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/05 18:00:21 by jhur              #+#    #+#             */
-/*   Updated: 2020/03/05 18:03:24 by jhur             ###   ########.fr       */
+/*   Updated: 2020/03/07 10:42:33 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ char    *ft_strchr(const char *str, int ch)
         str++;
     }
     if(ch == '\0')
-        return((char *)str);
-    return(NULL);
+        return ((char *)str);
+    return (NULL);
 }
 size_t ft_strlen(const char *s)
 {
@@ -31,7 +31,7 @@ size_t ft_strlen(const char *s)
     i = 0;
     while(s[i])
         i++;
-    return(i);
+    return (i);
 }
 char    *ft_strjoin(char *s1, char const *s2)
 {
@@ -41,11 +41,11 @@ char    *ft_strjoin(char *s1, char const *s2)
     char *ptr;
 
     if(!s1 || !s2)
-        return(NULL);
+        return (NULL);
     len1 = ft_strlen(s1);
     len2 = ft_strlen(s2);
     if(!(ptr = (char *)malloc(sizeof(char) * (len1 + len2 + 1))))
-        return(NULL);
+        return (NULL);
     i = 0;
     while(s1[i])
     {
@@ -61,7 +61,7 @@ char    *ft_strjoin(char *s1, char const *s2)
     }
     ptr[len1] = '\0';
     free(s1);
-    return(ptr);
+    return (ptr);
 }
 void    *ft_memmove(void *dst, const void *src, size_t len)
 {
@@ -86,7 +86,7 @@ void    *ft_memmove(void *dst, const void *src, size_t len)
         while(len-- > 0)  
             ptr_dst[len] = ptr_src[len];
     }
-    return(dst);
+    return (dst);
 }
 char    *ft_strdup(const char *s1)
 {
@@ -105,5 +105,5 @@ char    *ft_strdup(const char *s1)
         i++;
     }
     result[i] = '\0';
-    return(result);
+    return (result);
 }
