@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 10:51:21 by jhur              #+#    #+#             */
-/*   Updated: 2020/03/17 19:41:21 by jhur             ###   ########.fr       */
+/*   Updated: 2020/03/22 23:46:15 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,15 +235,20 @@ int percent_conversion(t_list info)
 void    s_with_precision(t_list info, int d_len, char *str)
 {
     info.zero_flag = 0;
-    if(info.p_len < d_len)
-        ft_left_blank(info.width, info.p_len, info.zero_flag, info.left);
+    if(info.p_len < 0)
+        ft_puts(str);
     else
-        ft_left_blank(info.width, d_len, info.zero_flag, info.left);
-    ft_precision_puts(str, info.p_len);
-    if(info.p_len < d_len)
-        ft_right_blank(info.width, info.p_len, info.left);
-    else
-        ft_right_blank(info.width, d_len, info.left);
+    {
+        if(info.p_len < d_len)
+            ft_left_blank(info.width, info.p_len, info.zero_flag, info.left);
+        else
+            ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+        ft_precision_puts(str, info.p_len);
+        if(info.p_len < d_len)
+            ft_right_blank(info.width, info.p_len, info.left);
+        else
+            ft_right_blank(info.width, d_len, info.left);
+    }
 }
 void    s_without_precision(t_list info, int d_len, char *str)
 {
@@ -256,7 +261,9 @@ int    s_conversion(va_list *ap, t_list info)
     char *str;
     int d_len;
     
-    str = va_arg(*ap, char *);
+    //str = va_arg(*ap, char *);
+    if (!(str = va_arg(*ap, char*)))
+      str = "(null)";
     d_len = ft_strlen(str);
     
     if (info.precision == 1)
@@ -458,7 +465,7 @@ void ft_has_width(t_list *info, const char **format, va_list *ap)
     }
     else
     {
-        while(**format >= '1' && **format <= '9')
+        while(**format >= '0' && **format <= '9')
             (*format)++;   //다음으로 넘어갈수있도록 자리 땡겨줌
     }
 }
@@ -557,7 +564,7 @@ int main(void)
 {
     //int a = 123;
     //int *p = &a;
-    //char str[30] = "helloWorld";
+    char str[30] = "helloWorld";
 
     // ft_printf("%d", -20);
     // printf("\n");
@@ -602,76 +609,79 @@ int main(void)
     // printf("\n");
     // ft_printf("%9.13s", str);
     // printf("\n");
-    printf("%10s", NULL);
+    ft_printf("%11s", "HelloWorlds");
+    ft_printf("%5s", "abcde");
     printf("\n");
-    ft_printf("%10s", NULL);
-    printf("%*.s", -3, "hello");
-    ft_printf("%*.s", -3, "hello");
+    ft_printf("%9s", NULL);
     printf("\n");
-    printf("%.*s", -3, "hello");
-    printf("\n");
-    ft_printf("%.*s", -3, "hello");
-    printf("\n");
-    ft_printf("%011.12d", -2147483647);
-    printf("\n");
-    printf("%011.12d", -2147483647);
-    printf("\n");
-    ft_printf("%*.*d ji", 9 , 6, -1234);
-    printf("\n");
-    printf("%*.*d ji", 9, 6, -1234);
-    printf("\n");
-    ft_printf("%9d", -1234);
-    printf("\n");
-    printf("%9d\n", -1234);
-    printf("\n");
-    //ft_printf("%-013.7d", 1234);
-    // printf("\n");
-    //printf("%-013.7d\n", 1234);
-    // printf("%-3c hi\n", 'a');
-    // ft_printf("%-3c hi", 'a');
-    // printf("\n");
-    // printf("res : %d\n", ft_printf("hello %12.2X %s %u", 200, "hi", 5));
-    // printf("res : %d\n", printf("hello %12.2X %s %u", 200, "hi", 5));
-    // ft_printf("%5.6u\n", 1234);
-    // ft_printf("%6.5u\n", 1234);
-    // ft_printf("%3.2u\n", 1234);
-    // ft_printf("%2.3u\n", 1234);
-    // printf("res : %d\n", printf("%5%"));
-    // printf("res : %d\n", ft_printf("%5%"));
-    // printf("res : %d\n", printf("%1%"));
-    // printf("res : %d\n", ft_printf("%1%"));
-    // printf("res : %d\n", printf("%%"));
-    // printf("res : %d\n", ft_printf("%%"));
-    // printf("res : %d\n", printf("%-1%"));
-    // printf("res : %d\n", ft_printf("%-1%"));
-    // printf("res : %d\n", printf("%-5%"));
-    // printf("res : %d\n", ft_printf("%-5%"));
-    // printf("ddres : %d\n", printf("%.%"));
-    // printf("ddres : %d\n", ft_printf("%.%"));
-    // printf("res : %d\n", printf("%.5%"));
-    // printf("res : %d\n", ft_printf("%.5%"));
-    // printf("res : %d\n", printf("%3.5%"));
-    // printf("res : %d\n", ft_printf("%3.5%"));
-    printf("res : %d\n", printf("%09.6d", -1234));
-    printf("res : %d\n", ft_printf("%09.6d", -1234));
-    printf("res : %d\n", printf("%09.5d", -1234));
-    printf("res : %d\n", ft_printf("%09.5d", -1234));
-    printf("res : %d\n", printf("%-9.10d", -1234));
-    printf("res : %d\n", ft_printf("%-9.10d", -1234));
-    printf("res : %d\n", printf("%-6.9d", -1234));
-    printf("res : %d\n", ft_printf("%-6.9d", -1234));
-    printf("res : %d\n", printf("%-3.9d", -1234));
-    printf("res : %d\n", ft_printf("%-3.9d", -1234));
+    ft_printf("%10d", 1234567898);
+//     printf("%*.s", -3, "hello");
+//     ft_printf("%*.s", -3, "hello");
+//     printf("\n");
+//     printf("%.*s", -3, "hello");
+//     printf("\n");
+//     ft_printf("%.*s", -3, "hello");
+//     printf("\n");
+//     ft_printf("%011.12d", -2147483647);
+//     printf("\n");
+//     printf("%011.12d", -2147483647);
+//     printf("\n");
+//     ft_printf("%*.*d ji", 9 , 6, -1234);
+//     printf("\n");
+//     printf("%*.*d ji", 9, 6, -1234);
+//     printf("\n");
+//     ft_printf("%9d", -1234);
+//     printf("\n");
+//     printf("%9d\n", -1234);
+//     printf("\n");
+//     //ft_printf("%-013.7d", 1234);
+//     // printf("\n");
+//     //printf("%-013.7d\n", 1234);
+//     // printf("%-3c hi\n", 'a');
+//     // ft_printf("%-3c hi", 'a');
+//     // printf("\n");
+//     // printf("res : %d\n", ft_printf("hello %12.2X %s %u", 200, "hi", 5));
+//     // printf("res : %d\n", printf("hello %12.2X %s %u", 200, "hi", 5));
+//     // ft_printf("%5.6u\n", 1234);
+//     // ft_printf("%6.5u\n", 1234);
+//     // ft_printf("%3.2u\n", 1234);
+//     // ft_printf("%2.3u\n", 1234);
+//     // printf("res : %d\n", printf("%5%"));
+//     // printf("res : %d\n", ft_printf("%5%"));
+//     // printf("res : %d\n", printf("%1%"));
+//     // printf("res : %d\n", ft_printf("%1%"));
+//     // printf("res : %d\n", printf("%%"));
+//     // printf("res : %d\n", ft_printf("%%"));
+//     // printf("res : %d\n", printf("%-1%"));
+//     // printf("res : %d\n", ft_printf("%-1%"));
+//     // printf("res : %d\n", printf("%-5%"));
+//     // printf("res : %d\n", ft_printf("%-5%"));
+//     // printf("ddres : %d\n", printf("%.%"));
+//     // printf("ddres : %d\n", ft_printf("%.%"));
+//     // printf("res : %d\n", printf("%.5%"));
+//     // printf("res : %d\n", ft_printf("%.5%"));
+//     // printf("res : %d\n", printf("%3.5%"));
+//     // printf("res : %d\n", ft_printf("%3.5%"));
+//     printf("res : %d\n", printf("%09.6d", -1234));
+//     printf("res : %d\n", ft_printf("%09.6d", -1234));
+//     printf("res : %d\n", printf("%09.5d", -1234));
+//     printf("res : %d\n", ft_printf("%09.5d", -1234));
+//     printf("res : %d\n", printf("%-9.10d", -1234));
+//     printf("res : %d\n", ft_printf("%-9.10d", -1234));
+//     printf("res : %d\n", printf("%-6.9d", -1234));
+//     printf("res : %d\n", ft_printf("%-6.9d", -1234));
+//     printf("res : %d\n", printf("%-3.9d", -1234));
+//     printf("res : %d\n", ft_printf("%-3.9d", -1234));
 
-    printf("res : %d\n", printf("%2.3d", -1234));
-    printf("res : %d\n", ft_printf("%2.3d", -1234));
-    printf("res : %d\n", printf("%3.2d", -1234));
-     printf("res : %d\n", ft_printf("%3.2d", -1234));
+//     printf("res : %d\n", printf("%2.3d", -1234));
+//     printf("res : %d\n", ft_printf("%2.3d", -1234));
+//     printf("res : %d\n", printf("%3.2d", -1234));
+//      printf("res : %d\n", ft_printf("%3.2d", -1234));
      
-    printf("res : %d\n", printf("%6.2d", -1234));
-    printf("res : %d\n", ft_printf("%6.2d", -1234));
-    printf("res : %d\n", printf("%5.2d", -1234));
-     printf("res : %d\n", ft_printf("%5.2d", -1234));
-     printf("res : %d\n", printf("%3.6d", -1234));
-     printf("res : %d\n", ft_printf("%3.6d", -1234));
+//     printf("res : %d\n", printf("%6.2d", -1234));
+//     printf("res : %d\n", ft_printf("%6.2d", -1234));
+//     printf("res : %d\n", printf("%5.2d", -1234));
+//      printf("res : %d\n", ft_printf("%5.2d", -1234));
+//      printf("res : %d\n", printf("%3.6d", -1234));
+//      printf("res : %d\n", ft_printf("%3.6d", -1234));
 }
