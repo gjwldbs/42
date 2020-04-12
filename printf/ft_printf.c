@@ -6,16 +6,38 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 10:51:21 by jhur              #+#    #+#             */
-/*   Updated: 2020/03/12 22:43:36 by jhur             ###   ########.fr       */
+/*   Updated: 2020/03/16 18:06:39 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_printf.h"
+/*
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <unistd.h>
 
+typedef struct s_list
+{
+    int zero_flag;
+    int left;
+    int precision;//flag
+    int p_len;
+    int width;
+}               t_list;
+char    *ft_strchr(const char *str, int ch)
+{
+    while(*str)
+    {
+        if(*str == (char)ch)
+            return((char *)str);
+        str++;
+    }
+    if(ch == '\0')
+        return((char *)str);
+    return(NULL);
+}
 size_t ft_strlen(const char *s)
 {
     size_t i;
@@ -29,20 +51,25 @@ void    ft_putchar(char c)
 {
     write(1, &c, 1);
 }
-void    ft_puts(const char *str)
+int    ft_puts(const char *str)
 {
+    int result;
+
+    result = 0;
     while(*str)
     {
         ft_putchar(*str);
         str++;
+        result++;
     }
+    return(result);
 }
-void    ft_precision_puts(const char *str, int precision_len)
+void    ft_precision_puts(const char *str, int p_len)
 {
     int i;
 
     i = 0;
-    while(i < precision_len)
+    while(i < p_len)
     {
         ft_putchar(*str);
         str++;
@@ -137,12 +164,12 @@ long long   ft_len(long long n)
     }
     return (len);
 }
-void    ft_left_zero(int width, int d_len, int zero_flag, int left_flag)
+void    ft_left_zero(int width, int d_len, int zero_flag, int left)
 {
     int i;
 
     i = 0;
-    if(zero_flag == 1 && left_flag == 0)
+    if(zero_flag == 1 && left == 0)
     {
         while(i < (width - d_len))
         {
@@ -151,12 +178,12 @@ void    ft_left_zero(int width, int d_len, int zero_flag, int left_flag)
         }
     }
 }
-void    ft_left_blank(int width, int d_len, int zero_flag, int left_flag)
+void    ft_left_blank(int width, int d_len, int zero_flag, int left)
 {
     int i;
 
     i = 0;
-    if(zero_flag == 0 && left_flag == 0)
+    if(zero_flag == 0 && left == 0)
     {
         while(i < (width - d_len))
         {
@@ -165,12 +192,12 @@ void    ft_left_blank(int width, int d_len, int zero_flag, int left_flag)
         }
     }
 }
-void    ft_right_blank(int width, int d_len, int left_flag)
+void    ft_right_blank(int width, int d_len, int left)
 {
     int i;
 
     i = 0;
-    if(left_flag == 1)
+    if(left == 1)
     {
         while(i < (width - d_len))
         {
@@ -179,278 +206,360 @@ void    ft_right_blank(int width, int d_len, int left_flag)
         }
     }
 }
-
-int ft_printf(const char *format, ...)
+int  c_conversion(va_list *ap, t_list info)
 {
-    int data;//%c, %d에 사용할 변수
-    char *str;//%s에 사용할 변수
-    va_list ap;//현재 처리할 가변 인수 위치 가리키는 변수
+    int data;
+    int d_len;
+
+    data = va_arg(*ap, int);
+    d_len = 1;
+    ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+    ft_putchar((char)data);
+    ft_right_blank(info.width, d_len, info.left);
+    if (info.width > 0)
+        return(info.width);
+    else
+        return (1);
+}
+int percent_conversion(t_list info)
+{
+    int d_len;
+
+    d_len = 1;
+    ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+    ft_putchar('%');
+    ft_right_blank(info.width, d_len, info.left);
+    if (info.width > 0)
+        return(info.width);
+    else
+        return (1);
+}
+void    s_with_precision(t_list info, int d_len, char *str)
+{
+    info.zero_flag = 0;
+    if(info.p_len < d_len)
+        ft_left_blank(info.width, info.p_len, info.zero_flag, info.left);
+    else
+        ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+    ft_precision_puts(str, info.p_len);
+    if(info.p_len < d_len)
+        ft_right_blank(info.width, info.p_len, info.left);
+    else
+        ft_right_blank(info.width, d_len, info.left);
+}
+void    s_without_precision(t_list info, int d_len, char *str)
+{
+    ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+    ft_puts(str);
+    ft_right_blank(info.width, d_len, info.left);
+}
+int    s_conversion(va_list *ap, t_list info)
+{
+    char *str;
+    int d_len;
+    
+    str = va_arg(*ap, char *);
+    d_len = ft_strlen(str);
+    
+    if (info.precision == 1)
+        s_with_precision(info, d_len, str);
+    else
+        s_without_precision(info, d_len, str);
+    if (info.precision == 1)
+    {
+        if (info.p_len < d_len)
+            d_len = info.p_len;
+    }
+    if (info.width > d_len)
+        return (info.width);
+    else
+        return (d_len);
+}
+int    p_conversion(va_list *ap, t_list info, const char *format)
+{
     void *ptr;
-    int d_len; //d_len data
-    int zero_flag;
-    int left_flag;
-    int precision;//flag
-    int precision_len;
-
-    va_start(ap, format);
-
-    while(*format)
+    int d_len;
+    
+    ptr = va_arg(*ap, void *);
+    d_len = 14;
+    ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+    write(1, "0x", 2);
+    ft_print_hex((long long)ptr, format);
+    ft_right_blank(info.width, d_len, info.left);
+    if (info.width > 0)
+        return(info.width);
+    else
+        return (14);
+}
+int    d_is_negative(t_list info, int d_len, int data)
+{
+    info.zero_flag = 0;
+    data *= -1;
+    d_len -= 1;
+    if (info.p_len < d_len)
+        ft_left_blank(info.width, d_len + 1, info.zero_flag, info.left);
+    else
+        ft_left_blank(info.width, info.p_len + 1, info.zero_flag, info.left);
+    ft_putchar('-');
+    ft_left_zero(info.p_len, d_len, 1, 0);
+    ft_putnbr(data);
+    if (info.p_len < d_len)
+        ft_right_blank(info.width, d_len + 1, info.left);
+    else
+        ft_right_blank(info.width, info.p_len + 1, info.left);
+    if(info.width > info.p_len && info.width > d_len)
+        return(info.width);
+    else
     {
-        zero_flag = 0;
-        left_flag = 0;
-        precision = 0;
-        precision_len = 0;
-        if(*format == '%')
+        if(info.width < d_len && info.p_len < d_len)
+            return(d_len + 1);
+        else
+            return(info.p_len + 1);
+    }
+}
+int    d_is_positive(t_list info, int d_len, int data)
+{
+    info.zero_flag = 0;
+    if (info.p_len < d_len)
+        ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+    else
+        ft_left_blank(info.width, info.p_len, info.zero_flag, info.left);
+    ft_left_zero(info.p_len, d_len, 1, 0);
+    ft_putnbr(data);
+    if (info.p_len < d_len)
+        ft_right_blank(info.width, d_len, info.left);
+    else
+        ft_right_blank(info.width, info.p_len, info.left);
+    if(d_len > info.p_len && d_len > info.width)
+        return(d_len);
+    else
+    {
+        if (info.p_len > info.width)
+            return (info.p_len);
+        else
+            return (info.width); 
+    }
+}
+int    d_without_precision(t_list info, int d_len, int data)
+{
+    ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+    ft_left_zero(info.width, d_len, info.zero_flag, info.left);
+    ft_putnbr(data);
+    ft_right_blank(info.width, d_len, info.left);
+    if (info.width > d_len)
+        return (info.width);
+    else
+        return (d_len);
+}
+int    d_conversion(va_list *ap, t_list info)
+{
+    int data;
+    int d_len;
+    
+    data = va_arg(*ap, int);
+    d_len = ft_len((long long)data);
+    if(data < 0)
+    {
+        if (info.precision == 1)
+            return(d_is_negative(info, d_len, data));
+        else
+            return(d_without_precision(info, d_len, data));
+    }
+    else
+    {
+        if (info.precision == 1)
+            return(d_is_positive(info, d_len, data));
+        else
+            return(d_without_precision(info, d_len, data));
+    }    
+}
+int    u_conversion(va_list *ap, t_list info)
+{
+    unsigned int data;
+    int d_len;
+    
+    data = va_arg(*ap, int);
+    d_len = ft_len((long long)data);
+    if (info.precision == 1)
+        return(d_is_positive(info, d_len, data));
+    else
+        return(d_without_precision(info, d_len, data));
+}
+int    x_with_precision(t_list info, int d_len, int data, const char *format)
+{
+    info.zero_flag = 0;
+    if (info.p_len < d_len)
+        ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+    else
+        ft_left_blank(info.width, info.p_len, info.zero_flag, info.left);
+    ft_left_zero(info.p_len, d_len, 1, 0);
+    ft_print_hex(data, format);
+    if (info.p_len < d_len)
+        ft_right_blank(info.width, d_len, info.left);
+    else
+        ft_right_blank(info.width, info.p_len, info.left);
+    if(d_len > info.p_len && d_len > info.width)
+        return(d_len);
+    else
+    {
+        if (info.p_len > info.width)
+            return (info.p_len);
+        else
+            return (info.width); 
+    }
+}
+int    x_without_precision(t_list info, int d_len, int data, const char *format)
+{
+    ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+    ft_left_zero(info.width, d_len, info.zero_flag, info.left);
+    ft_print_hex(data, format);
+    ft_right_blank(info.width, d_len, info.left);
+    if (info.width > d_len)
+        return (info.width);
+    else
+        return (d_len);
+}
+int    x_conversion(va_list *ap, t_list info, const char *format)
+{
+    unsigned int data;
+    int d_len;
+
+    data = va_arg(*ap, int);
+    d_len = ft_hex_len((long long)data);
+    if (info.precision == 1)
+        return(x_with_precision(info, d_len, data, format));
+    else
+        return(x_without_precision(info, d_len, data, format));
+}
+
+void    ft_read_flag(t_list *info, const char **format)
+{
+    if(**format == '-')
+    {
+        (*info).left = 1;
+        (*format)++;
+    }
+    if(**format == '0')
+    {
+        (*info).zero_flag = 1;//0이면 0으로 채우고 0이 없으면 공백으로 채우게
+        (*format)++;
+    }
+}
+void ft_has_width(t_list *info, const char **format, va_list *ap)
+{
+    (*info).width = ft_atoi(*format); //info.width에 담고
+    if(**format == '*')
+    {
+        (*info).width = va_arg(*ap, int);
+        if((*info).width < 0)
         {
-            int width = 0;
-            format++;
-            if(*format == '-')
-            {
-                left_flag = 1;
-                format++;
-            }
-            if(*format == '0')
-            {
-                zero_flag = 1;//0이면 0으로 채우고 0이 없으면 공백으로 채우게
-                format++;
-            }
-            width = ft_atoi(format); //width에 담고
-            //
-            if(*format == '*')
-            {
-                width = va_arg(ap, int);
-                if(width < 0)
-                {
-                    width *= -1;
-                    left_flag = 1;
-                }
-                format++;
-            }
-            else
-            {
-                // width = ft_atoi(format);
-                while(*format >= '1' && *format <= '9')
-                    format++;   //다음으로 넘어갈수있도록 자리 땡겨줌
-            }
-            //
-            if(*format == '.')
-            {
-                precision = 1;
-                ++format;
-                precision_len = ft_atoi(format);
-                if(*format == '*')
-                {
-                    precision_len = va_arg(ap, int);
-                    format++;
-                }
-                else
-                {
-                    while(*format >= '0' && *format <= '9')
-                        format++; //이 다음 작업 printf 안에서 처리하도록 
-                }  
-            }
-            //
-            if(*format == 'c')//하나의 문자
-            {
-                data = va_arg(ap, int);
-                d_len = 1;
-                ft_left_blank(width, d_len, zero_flag, left_flag);
-                ft_putchar((char)data);
-                ft_right_blank(width, d_len, left_flag);   
-            }
-            else if(*format == 's')
-            {
-                str = va_arg(ap, char *);
-                d_len = ft_strlen(str);
-                if (precision == 1)
-                {
-                    zero_flag = 0;
-                    if(width < d_len)//precision_len < d_len
-                     ft_left_blank(width, precision_len, zero_flag, left_flag);
-                    else
-                     ft_left_blank(width, d_len, zero_flag, left_flag);
-                    ft_precision_puts(str, precision_len);
-                    if(width < d_len)//precision_len < d_len
-                     ft_right_blank(width, precision_len, left_flag);
-                    else
-                     ft_right_blank(width, d_len, left_flag);
-                }
-                else
-                {
-                    ft_left_blank(width, d_len, zero_flag, left_flag);
-                    ft_puts(str);
-                    ft_right_blank(width, d_len, left_flag);
-                }
-            }
-            else if(*format == 'p')
-            {
-                ptr = va_arg(ap, void *);
-                d_len = 14;
-                ft_left_blank(width, d_len, zero_flag, left_flag);
-                write(1, "0x", 2);
-                ft_print_hex((long long)ptr, format);
-                ft_right_blank(width, d_len, left_flag);
-            }
-            else if(*format == 'd' || *format == 'i')
-            {
-                data = va_arg(ap, int);
-                d_len = ft_len((long long)data);
-                if(data < 0)
-                {
-                    if (precision == 1)
-                    {
-                        zero_flag = 0;
-                        data *= -1;
-                        d_len -= 1;
-                        if (precision_len < d_len)
-                            ft_left_blank(width, d_len, zero_flag, left_flag);
-                        else
-                            ft_left_blank(width, precision_len + 1, zero_flag, left_flag);
-                        ft_putchar('-');
-                        ft_left_zero(precision_len, d_len, 1, 0);
-                        ft_putnbr(data);
-                        if (precision_len < d_len)
-                            ft_right_blank(width, d_len, left_flag);
-                        else
-                            ft_right_blank(width, precision_len + 1, left_flag);
-                    }
-                    else
-                    {
-                        ft_left_blank(width, d_len, zero_flag, left_flag);
-                        ft_left_zero(width, d_len, zero_flag, left_flag);
-                        ft_putnbr(data);
-                        ft_right_blank(width, d_len, left_flag);
-                    }
-                }
-                else
-                {
-                    if (precision == 1)
-                    {
-                        zero_flag = 0;
-                        if (precision_len < d_len)
-                            ft_left_blank(width, d_len, zero_flag, left_flag);
-                        else
-                            ft_left_blank(width, precision_len, zero_flag, left_flag);
-                        ft_left_zero(precision_len, d_len, 1, 0);
-                        ft_putnbr(data);
-                        if (precision_len < d_len)
-                            ft_right_blank(width, d_len, left_flag);
-                        else
-                            ft_right_blank(width, precision_len, left_flag);
-                    }
-                    else
-                    {
-                        ft_left_blank(width, d_len, zero_flag, left_flag);
-                        ft_left_zero(width, d_len, zero_flag, left_flag);
-                        ft_putnbr(data);
-                        ft_right_blank(width, d_len, left_flag);
-                    }
-                }
-            }
-            else if(*format == 'u')
-            {
-                unsigned int data = va_arg(ap, int);
-                d_len = ft_len((long long)data);
-                if (precision == 1)
-                {
-                    zero_flag = 0;
-                    
-                    if (precision_len < d_len)
-                        ft_left_blank(width, d_len, zero_flag, left_flag);
-                    else
-                        ft_left_blank(width, precision_len, zero_flag, left_flag);
-                    ft_left_zero(precision_len, d_len, 1, 0);
-                    ft_putnbr(data);
-                    if (precision_len < d_len)
-                        ft_right_blank(width, d_len, left_flag);
-                    else
-                        ft_right_blank(width, precision_len, left_flag);
-                }
-                else
-                {
-                ft_left_blank(width, d_len, zero_flag, left_flag);
-                ft_left_zero(width, d_len, zero_flag, left_flag);
-                ft_putnbr(data);
-                ft_right_blank(width, d_len, left_flag);
-                }
-            }
-            else if(*format == 'x')
-            {
-                unsigned int data = va_arg(ap, int);
-                d_len = ft_hex_len((long long)data);
-                if (precision == 1)
-                {
-                    zero_flag = 0;
-                    if (precision_len < d_len)
-                        ft_left_blank(width, d_len, zero_flag, left_flag);
-                    else
-                        ft_left_blank(width, precision_len, zero_flag, left_flag);
-                    ft_left_zero(precision_len, d_len, 1, 0);
-                    ft_print_hex(data, format);
-                    if (precision_len < d_len)
-                        ft_right_blank(width, d_len, left_flag);
-                    else
-                        ft_right_blank(width, precision_len, left_flag);
-                }
-                else
-                {
-                    ft_left_blank(width, d_len, zero_flag, left_flag);
-                    ft_left_zero(width, d_len, zero_flag, left_flag);
-                    ft_print_hex(data, format);
-                    ft_right_blank(width, d_len, left_flag);
-                }
-            }
-            else if(*format == 'X')
-            {
-                unsigned int data = va_arg(ap, int);
-                d_len = ft_hex_len((long long)data);
-                if (precision == 1)
-                {
-                    zero_flag = 0;
-                    
-                    if (precision_len < d_len)
-                        ft_left_blank(width, d_len, zero_flag, left_flag);
-                    else
-                        ft_left_blank(width, precision_len, zero_flag, left_flag);
-                    ft_left_zero(precision_len, d_len, 1, 0);
-                    ft_print_hex(data, format);
-                    if (precision_len < d_len)
-                        ft_right_blank(width, d_len, left_flag);
-                    else
-                        ft_right_blank(width, precision_len, left_flag);
-                }
-                else
-                {
-                    ft_left_blank(width, d_len, zero_flag, left_flag);
-                    ft_left_zero(width, d_len, zero_flag, left_flag);
-                    ft_print_hex(data, format);
-                    ft_right_blank(width, d_len, left_flag);
-                }
-            }
-            else if(*format == '%')
-                ft_putchar('%');
-            else
-            {
-                // if(*(format - 2) == '%')
-                // ft_putchar('%');
-                // write(1, format, 1);
-            }
-            ++format;
+            (*info).width *= -1;
+            (*info).left = 1;
+        }
+        (*format)++;
+    }
+    else
+    {
+        while(**format >= '1' && **format <= '9')
+            (*format)++;   //다음으로 넘어갈수있도록 자리 땡겨줌
+    }
+}
+void ft_has_precision(t_list *info, char const **format, va_list *ap)
+{
+    if(**format == '.')
+    {
+        (*info).precision = 1;
+        ++(*format);
+        (*info).p_len = ft_atoi(*format);
+        if(**format == '*')
+        {
+            (*info).p_len = va_arg(*ap, int);
+            (*format)++;
         }
         else
         {
-            ft_puts(format);
+            while(**format >= '0' && **format <= '9')
+                (*format)++; //이 다음 작업 printf 안에서 처리하도록 
+        }  
+    }
+}
+int    ft_has_spec(t_list info, const char **format, va_list *ap)
+{
+    int result;
+
+    result = 0;
+    if(**format == 'c')//하나의 문자
+        result = c_conversion(ap, info);
+    else if(**format == 's')
+        result = s_conversion(ap, info);
+    else if(**format == 'p')
+        result = p_conversion(ap, info, *format);
+    else if(**format == 'd' || **format == 'i')
+        result = d_conversion(ap, info);
+    else if(**format == 'u')
+        result = u_conversion(ap, info);
+    else if(**format == 'x')
+        result = x_conversion(ap, info, *format);
+    else if(**format == 'X')
+        result = x_conversion(ap, info, *format);
+    else if(**format == '%')
+        result = percent_conversion(info);
+    return (result);
+}
+int    ft_processing(const char **format, va_list *ap)
+{
+    t_list info;
+    int result;
+    int count;
+
+    count = 0;
+    result = 0;
+    info.zero_flag = 0;
+    info.left = 0;
+    info.precision = 0;
+    info.p_len = 0;
+    info.width = 0;
+    while((**format) != '%')
+    {
+        ft_putchar(**format);
+        count++;
+        (*format)++;
+    }
+    (*format)++;
+    ft_read_flag(&info, format);
+    ft_has_width(&info, format, ap);
+    ft_has_precision(&info, format, ap);
+    result = ft_has_spec(info, format, ap) + count;
+    ++(*format);
+
+    return (result);
+}
+*/
+int ft_printf(const char *format, ...)
+{   
+    va_list ap;//현재 처리할 가변 인수 위치 가리키는 변수
+    int result;
+    
+    va_start(ap, format);
+    result = 0;
+    while(*format)
+    {
+        if(ft_strchr(format, '%'))
+            result += ft_processing(&format, &ap);
+        else
+        {
+            result = ft_puts(format);
             break;
         }
     }
     va_end(ap);
-    return (0);
+    return (result);
 }
-int main()
+int main(void)
 {
-    int a = 123;
-    int *p = &a;
-    char str[30] = "helloWorld";
+    //int a = 123;
+    //int *p = &a;
+    //char str[30] = "helloWorld";
 
     // ft_printf("%d", -20);
     // printf("\n");
@@ -461,17 +570,17 @@ int main()
     // ft_printf("%s\n", "Hello, world!");    // Hello, world!: 문자열
     // printf("\n");
     
-    // ft_printf("%u\n", -20);
+    // ft_printf("%u\n", 20);
     // printf("\n");
     
-    // printf("%u\n", -20);
+    // printf("%u\n", 20);
     
     // ft_printf("%5.4x", 180);    // 16진수 소문자 출력이면 앞에 0x를 붙임
     //  printf("\n");
     // printf("%5x", 15);
-    // //  printf("\n");
+    //   printf("\n");
     // printf("%5.4x\n", 180);
-    // // //ft_printf("%X\n", 10);    // 16진수 대문자 출력이면 앞에 0X를 붙임
+    // ft_printf("%5.4X\n", 180);    // 16진수 대문자 출력이면 앞에 0X를 붙임
     
     // printf("%13p\n", &a);
     // ft_printf("%13p\n", &a);
@@ -479,11 +588,11 @@ int main()
     // printf("\n");
     // ft_printf("%2s", str);
     // printf("\n");
-    // printf("%12.11s", str);
+    // printf("%.13s hi", str);  
     // printf("\n");
-    // ft_printf("%12.11s", str);
+    // ft_printf("%12.11s", str );
     // printf("\n");
-    // printf("%4.3s", str);
+    // printf("%4.5s", str);
     // printf("\n");
     // ft_printf("%4.3s", str);
     // printf("\n");
@@ -500,19 +609,66 @@ int main()
     // ft_printf("%12.s", str);
     // printf("\n");
 
-    ft_printf("%09.6d", 1234);
+    // ft_printf("%09.6d", 1234);
+    // printf("\n");
+    // ft_printf("%*d", 9 ,1234);
+    // printf("\n");
+    ft_printf("%*.*d ji", 9 , 6, -1234);
     printf("\n");
-    ft_printf("%*d", 9 ,1234);
-    printf("\n");
-    ft_printf("%-*.*d ji", 9 , 6, -1234);
-    printf("\n");
-    printf("%-*.*d ji", 9, 6, -1234);
+    printf("%*.*d ji", 9, 6, -1234);
     printf("\n");
     ft_printf("%9d", -1234);
     printf("\n");
     printf("%9d\n", -1234);
-    
+    printf("\n");
+    //ft_printf("%-013.7d", 1234);
+    // printf("\n");
+    //printf("%-013.7d\n", 1234);
     // printf("%-3c hi\n", 'a');
     // ft_printf("%-3c hi", 'a');
     // printf("\n");
+    // printf("res : %d\n", ft_printf("hello %12.2X %s %u", 200, "hi", 5));
+    // printf("res : %d\n", printf("hello %12.2X %s %u", 200, "hi", 5));
+    // ft_printf("%5.6u\n", 1234);
+    // ft_printf("%6.5u\n", 1234);
+    // ft_printf("%3.2u\n", 1234);
+    // ft_printf("%2.3u\n", 1234);
+    // printf("res : %d\n", printf("%5%"));
+    // printf("res : %d\n", ft_printf("%5%"));
+    // printf("res : %d\n", printf("%1%"));
+    // printf("res : %d\n", ft_printf("%1%"));
+    // printf("res : %d\n", printf("%%"));
+    // printf("res : %d\n", ft_printf("%%"));
+    // printf("res : %d\n", printf("%-1%"));
+    // printf("res : %d\n", ft_printf("%-1%"));
+    // printf("res : %d\n", printf("%-5%"));
+    // printf("res : %d\n", ft_printf("%-5%"));
+    // printf("ddres : %d\n", printf("%.%"));
+    // printf("ddres : %d\n", ft_printf("%.%"));
+    // printf("res : %d\n", printf("%.5%"));
+    // printf("res : %d\n", ft_printf("%.5%"));
+    // printf("res : %d\n", printf("%3.5%"));
+    // printf("res : %d\n", ft_printf("%3.5%"));
+    printf("res : %d\n", printf("%09.6d", -1234));
+    printf("res : %d\n", ft_printf("%09.6d", -1234));
+    printf("res : %d\n", printf("%09.5d", -1234));
+    printf("res : %d\n", ft_printf("%09.5d", -1234));
+    printf("res : %d\n", printf("%-9.10d", -1234));
+    printf("res : %d\n", ft_printf("%-9.10d", -1234));
+    printf("res : %d\n", printf("%-6.9d", -1234));
+    printf("res : %d\n", ft_printf("%-6.9d", -1234));
+    printf("res : %d\n", printf("%-3.9d", -1234));
+    printf("res : %d\n", ft_printf("%-3.9d", -1234));
+
+    printf("res : %d\n", printf("%2.3d", -1234));
+    printf("res : %d\n", ft_printf("%2.3d", -1234));
+    printf("res : %d\n", printf("%3.2d", -1234));
+     printf("res : %d\n", ft_printf("%3.2d", -1234));
+     
+    printf("res : %d\n", printf("%6.2d", -1234));
+    printf("res : %d\n", ft_printf("%6.2d", -1234));
+    printf("res : %d\n", printf("%5.2d", -1234));
+     printf("res : %d\n", ft_printf("%5.2d", -1234));
+     printf("res : %d\n", printf("%3.6d", -1234));
+     printf("res : %d\n", ft_printf("%3.6d", -1234));
 }

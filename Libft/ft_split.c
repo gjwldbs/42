@@ -6,55 +6,67 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/27 16:50:10 by jhur              #+#    #+#             */
-/*   Updated: 2020/02/28 12:22:06 by jhur             ###   ########.fr       */
+/*   Updated: 2020/04/06 13:29:45 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int      wdcnt(char *str, char c)
+static size_t  ft_wordcount(char const *s1, char const c)
 {
-    int cnt;
+    size_t  count;
 
-    cnt = 0;
-    while(*str)
+    count = 0;
+    while (*s1)
     {
-        if(*str == c)
-        {
-            ++cnt;
-            while(*str && !(*str != c))
-                ++str;
-        }
-        ++str;
+        while (*s1 == c)
+            s1++;
+        if (*s1 && *s1 != c)
+            count++;
+        while (*s1 && *s1 != c)
+            s1++;
     }
-    return(cnt);
+    return (count);
 }
-static void    ft_str_cpy(char *dst, char *from, char *until)
+
+static size_t  ft_checklen(char const *s1, char const c)
 {
-    while(from < until)
-        *(dst++) = *(from++);
-    *dst = 0;
-}
-char            **ft_split(char *str, char c)
-{
-    char **ret;
-    int idx;
-    char *from;
-    
-    ret = (char **)malloc(sizeof(char *) * wdcnt(str,c) + 1);
-    idx = 0;
-    while(*str)
+    size_t  count;
+
+    count = 0;
+    while (*s1 && *s1 != c)
     {
-        if(*str != c)
-        {
-            from = str;
-            while(*str && (*str != c))
-                ++str;
-            ret[idx] = (char *)malloc(str - from + 1);
-            ft_str_cpy(ret[idx++], from, str);
-        }
-        ++str;
+        count++;
+        s1++;
     }
-    ret[idx] = 0;
-    return(ret);
+    return (count);
+}
+
+char **ft_split(char const *s, char c)
+{
+    char    **result;
+    size_t  i;
+    size_t  j;
+
+    result = malloc(sizeof(char *) * (ft_wordcount(s, c) + 1));
+    if (result == 0)
+        return (0);
+    i = 0;
+    while (*s)
+    {
+        while (*s == c)
+            s++;
+        if (*s)
+        {   result[i] = malloc(sizeof(char) * (ft_checklen(s, c) + 1));
+            if (result[i] == 0)
+                return (0);
+            j = 0;
+            while (*s && *s != c)
+                result[i][j++] = *s++;
+            result[i][j] ='\0';
+            i++;
+        }
+    }
+    result[i] = '\0';
+    return (result);
 }
