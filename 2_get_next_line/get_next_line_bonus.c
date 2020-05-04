@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 19:26:09 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/04 11:21:48 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/04 11:40:40 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 static int	ft_free(char **s_res, int ret)
 {
@@ -82,24 +82,24 @@ int			get_next_line(int fd, char **line)
 	size_t		res;
 	char		buf[BUFFER_SIZE + 1];
 	char		tmp[BUFFER_SIZE + 1];
-	static char	*s_res;
+	static char	*s_res[1024];
 
 	if (fd < 0 || line == NULL || (read(fd, buf, 0) < 0) || BUFFER_SIZE < 1)
 		return (-1);
 	*line = ft_strdup("");
-	if (s_res)
+	if (s_res[fd])
 	{
-		if (has_s_res(&s_res, line, tmp) == 1)
+		if (has_s_res(&s_res[fd], line, tmp) == 1)
 			return (1);
 	}
 	while ((res = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[res] = '\0';
-		if (has_newline(buf, tmp, &s_res, line) == 1)
+		if (has_newline(buf, tmp, &s_res[fd], line) == 1)
 			return (1);
 		if (!(*line = ft_strjoin(*line, buf)))
 		{
-			free(s_res);
+			free(s_res[fd]);
 			return (-1);
 		}
 	}
