@@ -6,19 +6,19 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/16 16:59:20 by jhur              #+#    #+#             */
-/*   Updated: 2020/03/16 18:08:04 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/05 18:57:30 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#ifndef LIBFTPRINTF_H
-# define LIBFTPRINTF_H
+#ifndef FT_PRINTF_H
+# define FT_PRINTF_H
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <stdarg.h>
-#include <unistd.h>
+# include <stdio.h>
+# include <string.h>
+# include <stdlib.h>
+# include <stdarg.h>
+# include <unistd.h>
 
 typedef struct s_list
 {

@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/16 17:45:49 by jhur              #+#    #+#             */
-/*   Updated: 2020/03/22 23:44:47 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/05 18:58:28 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ void    ft_has_precision(t_list *info, char const **format, va_list *ap)
         else
         {
             while(**format >= '0' && **format <= '9')
-                (*format)++; //이 다음 작업 printf 안에서 처리하도록 
-        }  
+                (*format)++; //이 다음 작업 printf 안에서 처리하도록
+        }
     }
 }
 int     ft_has_spec(t_list info, const char **format, va_list *ap)
@@ -68,15 +68,15 @@ int     ft_has_spec(t_list info, const char **format, va_list *ap)
     int result;
 
     result = 0;
-    if(**format == 'c')//하나의 문자
+    if(**format == 'c' || **format == 'C')//하나의 문자
         result = c_conversion(ap, info);
-    else if(**format == 's')
+    else if(**format == 's' || **format == 'S')
         result = s_conversion(ap, info);
     else if(**format == 'p')
         result = p_conversion(ap, info, *format);
-    else if(**format == 'd' || **format == 'i')
+    else if(**format == 'd' || **format == 'i' || **format == 'D')
         result = d_conversion(ap, info);
-    else if(**format == 'u')
+    else if(**format == 'u' || **format == 'U')
         result = u_conversion(ap, info);
     else if(**format == 'x')
         result = x_conversion(ap, info, *format);
