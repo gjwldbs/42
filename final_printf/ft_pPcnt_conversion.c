@@ -6,13 +6,13 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/06 16:43:58 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/06 16:44:21 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/06 18:35:10 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	percent_conversion(t_flags flags)
+int			percent_conversion(t_flags flags)
 {
 	int count;
 
