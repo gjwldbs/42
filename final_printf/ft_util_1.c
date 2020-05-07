@@ -6,26 +6,26 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/06 16:18:03 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/06 16:19:47 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/07 11:32:40 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_isdigit(int c)
+int			ft_isdigit(int c)
 {
 	if (c >= 48 && c <= 57)
 		return (1);
 	return (0);
 }
 
-int	ft_putchar(char c)
+int			ft_putchar(char c)
 {
 	write(1, &c, 1);
 	return (1);
 }
 
-static int		ft_intlen(long n)
+static int	ft_intlen(long n)
 {
 	size_t	length;
 	int		neg;
@@ -46,7 +46,7 @@ static int		ft_intlen(long n)
 	return (length);
 }
 
-static char		*ft_generate(char *nc, long num, int length, int neg)
+static char	*ft_generate(char *nc, long num, int length, int neg)
 {
 	if (num != 0)
 		nc = malloc(sizeof(char) * (length + 1));
@@ -73,7 +73,7 @@ static char		*ft_generate(char *nc, long num, int length, int neg)
 	return (nc);
 }
 
-char			*ft_itoa(int n)
+char		*ft_itoa(int n)
 {
 	int		length;
 	char	*nc;

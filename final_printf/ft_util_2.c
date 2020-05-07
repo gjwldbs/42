@@ -6,13 +6,13 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/06 16:21:39 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/06 16:23:40 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/07 11:33:19 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_tolower(int c)
+int		ft_tolower(int c)
 {
 	if (c >= 65 && c <= 90)
 		c = c + 32;
@@ -65,7 +65,7 @@ size_t	ft_strlen(const char *str)
 	return (len);
 }
 
-int	ft_putsp(char *str, int precision)
+int		ft_putsp(char *str, int precision)
 {
 	int i;
 

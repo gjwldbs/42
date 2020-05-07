@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/06 16:24:08 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/06 16:25:13 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/07 11:31:22 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char			*ft_u_itoa(unsigned int n)
 	return (nc);
 }
 
-static	char			*ft_base(unsigned long long number, int base,
+static	char	*ft_base(unsigned long long number, int base,
 int count, char *str)
 {
 	while (number != 0)
@@ -91,7 +91,7 @@ int count, char *str)
 	return (str);
 }
 
-char					*ft_utl_base(unsigned long long number, int base)
+char			*ft_utl_base(unsigned long long number, int base)
 {
 	unsigned long long	temp;
 	int					count;

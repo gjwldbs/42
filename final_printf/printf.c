@@ -6,13 +6,13 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/06 16:14:58 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/06 16:51:03 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/07 11:29:54 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_handle_width(int width, int minus, int zero)
+int				ft_handle_width(int width, int minus, int zero)
 {
 	int count;
 
@@ -29,7 +29,7 @@ int	ft_handle_width(int width, int minus, int zero)
 	return (count);
 }
 
-static t_flags			ft_initialize(void)
+static t_flags	ft_initialize(void)
 {
 	t_flags	flags;
 
@@ -42,7 +42,7 @@ static t_flags			ft_initialize(void)
 	return (flags);
 }
 
-static int				ft_parsing(const char *str, int i,
+static int		ft_parsing(const char *str, int i,
 t_flags *flags, va_list args)
 {
 	while (str[i])
@@ -70,7 +70,7 @@ t_flags *flags, va_list args)
 	return (i);
 }
 
-static int				ft_processing(const char *str, va_list args)
+static int		ft_processing(const char *str, va_list args)
 {
 	t_flags	flags;
 	int		i;
@@ -98,7 +98,7 @@ static int				ft_processing(const char *str, va_list args)
 	return (count);
 }
 
-int						ft_printf(const char *format, ...)
+int				ft_printf(const char *format, ...)
 {
 	va_list		args;
 	const char	*str;
