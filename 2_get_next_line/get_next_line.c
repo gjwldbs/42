@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/02 19:26:09 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/04 11:21:48 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/07 12:11:50 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,11 @@ static int	has_newline(char *buf, char *tmp, char **s_res, char **line)
 			tmp[i] = buf[i];
 		tmp[i] = '\0';
 		if (!(*line = ft_strjoin(*line, tmp)))
-		{
-			free(*s_res);
-			return (-1);
-		}
+			ft_free(s_res, -1);
 		free(*s_res);
 		*s_res = NULL;
 		if (!(*s_res = ft_strdup(&buf[i + 1])))
-		{
-			free(*s_res);
-			return (-1);
-		}
+			ft_free(s_res, -1);
 		return (1);
 	}
 	return (0);
@@ -98,10 +92,7 @@ int			get_next_line(int fd, char **line)
 		if (has_newline(buf, tmp, &s_res, line) == 1)
 			return (1);
 		if (!(*line = ft_strjoin(*line, buf)))
-		{
-			free(s_res);
-			return (-1);
-		}
+			ft_free(&s_res, -1);
 	}
 	return (res);
 }
