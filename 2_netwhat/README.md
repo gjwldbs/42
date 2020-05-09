@@ -1,5 +1,8 @@
 # Netwhat
 
+## :mag_right:Evaluated
++ score : 100
+
 ## **IP4**
 
 - 8bit씩 4개의 10진수 값 (size: 8 x 4 =32bit)
@@ -89,4 +92,5 @@
 - 참고 : [ICMP](https://ko.wikipedia.org/wiki/%EC%9D%B8%ED%84%B0%EB%84%B7_%EC%A0%9C%EC%96%B4_%EB%A9%94%EC%8B%9C%EC%A7%80_%ED%94%84%EB%A1%9C%ED%86%A0%EC%BD%9C)
 
 ## **Calculator**
+
 - [http://jodies.de/ipcalc?host=133.159.10.17&mask1=255.192.0.0&mask2=](http://jodies.de/ipcalc?host=133.159.10.17&mask1=255.192.0.0&mask2=)
