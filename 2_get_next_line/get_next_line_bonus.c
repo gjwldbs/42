@@ -77,7 +77,7 @@ int			get_next_line(int fd, char **line)
 	char		buf[BUFFER_SIZE + 1];
 	char		tmp[BUFFER_SIZE + 1];
 	static char	*s_res[1024];
-
+    
 	if (fd < 0 || line == NULL || (read(fd, buf, 0) < 0) || BUFFER_SIZE < 1)
 		return (-1);
 	*line = ft_strdup("");
@@ -94,5 +94,6 @@ int			get_next_line(int fd, char **line)
 		if (!(*line = ft_strjoin(*line, buf)))
 			ft_free(&s_res[fd], -1);
 	}
+    
 	return (res);
 }
