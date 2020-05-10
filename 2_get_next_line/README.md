@@ -13,3 +13,7 @@
 2. Bonus Part
     - ***requirement 1***: to succeed get_next_line with a single static variable.
     - ***requirement 2***: to be able to manage multiple file descriptors with get_next_line without losing the reading thread on each of the descriptors.
+### :mag_right: Testers
+- [https://github.com/Mazoise/42TESTERS-GNL](https://github.com/Mazoise/42TESTERS-GNL)
+- [https://github.com/charMstr/GNL_lover](https://github.com/charMstr/GNL_lover)
+- [https://github.com/DontBreakAlex/gnlkiller](https://github.com/DontBreakAlex/gnlkiller)
