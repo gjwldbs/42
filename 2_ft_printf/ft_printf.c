@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/07 10:51:21 by jhur              #+#    #+#             */
-/*   Updated: 2020/03/16 18:06:39 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/11 13:42:00 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void    ft_precision_puts(const char *str, int p_len)
 int ft_hex_len(long long c)
 {
     int count;
-    
+
     count = 0;
     if (c >= 0 && c <= 15)
         count++;
@@ -257,10 +257,10 @@ int    s_conversion(va_list *ap, t_list info)
 {
     char *str;
     int d_len;
-    
+
     str = va_arg(*ap, char *);
     d_len = ft_strlen(str);
-    
+
     if (info.precision == 1)
         s_with_precision(info, d_len, str);
     else
@@ -279,7 +279,7 @@ int    p_conversion(va_list *ap, t_list info, const char *format)
 {
     void *ptr;
     int d_len;
-    
+
     ptr = va_arg(*ap, void *);
     d_len = 14;
     ft_left_blank(info.width, d_len, info.zero_flag, info.left);
@@ -337,7 +337,7 @@ int    d_is_positive(t_list info, int d_len, int data)
         if (info.p_len > info.width)
             return (info.p_len);
         else
-            return (info.width); 
+            return (info.width);
     }
 }
 int    d_without_precision(t_list info, int d_len, int data)
@@ -355,7 +355,7 @@ int    d_conversion(va_list *ap, t_list info)
 {
     int data;
     int d_len;
-    
+
     data = va_arg(*ap, int);
     d_len = ft_len((long long)data);
     if(data < 0)
@@ -371,13 +371,13 @@ int    d_conversion(va_list *ap, t_list info)
             return(d_is_positive(info, d_len, data));
         else
             return(d_without_precision(info, d_len, data));
-    }    
+    }
 }
 int    u_conversion(va_list *ap, t_list info)
 {
     unsigned int data;
     int d_len;
-    
+
     data = va_arg(*ap, int);
     d_len = ft_len((long long)data);
     if (info.precision == 1)
@@ -405,7 +405,7 @@ int    x_with_precision(t_list info, int d_len, int data, const char *format)
         if (info.p_len > info.width)
             return (info.p_len);
         else
-            return (info.width); 
+            return (info.width);
     }
 }
 int    x_without_precision(t_list info, int d_len, int data, const char *format)
@@ -479,8 +479,8 @@ void ft_has_precision(t_list *info, char const **format, va_list *ap)
         else
         {
             while(**format >= '0' && **format <= '9')
-                (*format)++; //이 다음 작업 printf 안에서 처리하도록 
-        }  
+                (*format)++; //이 다음 작업 printf 안에서 처리하도록
+        }
     }
 }
 int    ft_has_spec(t_list info, const char **format, va_list *ap)
@@ -536,10 +536,10 @@ int    ft_processing(const char **format, va_list *ap)
 }
 */
 int ft_printf(const char *format, ...)
-{   
+{
     va_list ap;//현재 처리할 가변 인수 위치 가리키는 변수
     int result;
-    
+
     va_start(ap, format);
     result = 0;
     while(*format)
@@ -548,13 +548,14 @@ int ft_printf(const char *format, ...)
             result += ft_processing(&format, &ap);
         else
         {
-            result = ft_puts(format);
+            result += ft_puts(format);
             break;
         }
     }
     va_end(ap);
     return (result);
 }
+/*
 int main(void)
 {
     //int a = 123;
@@ -563,32 +564,32 @@ int main(void)
 
     // ft_printf("%d", -20);
     // printf("\n");
-    
+
     // ft_printf("%c\n", 'a');    // a: 문자
     // printf("\n");
-    
+
     // ft_printf("%s\n", "Hello, world!");    // Hello, world!: 문자열
     // printf("\n");
-    
+
     // ft_printf("%u\n", 20);
     // printf("\n");
-    
+
     // printf("%u\n", 20);
-    
+
     // ft_printf("%5.4x", 180);    // 16진수 소문자 출력이면 앞에 0x를 붙임
     //  printf("\n");
     // printf("%5x", 15);
     //   printf("\n");
     // printf("%5.4x\n", 180);
     // ft_printf("%5.4X\n", 180);    // 16진수 대문자 출력이면 앞에 0X를 붙임
-    
+
     // printf("%13p\n", &a);
     // ft_printf("%13p\n", &a);
     // printf("%2s", str);
     // printf("\n");
     // ft_printf("%2s", str);
     // printf("\n");
-    // printf("%.13s hi", str);  
+    // printf("%.13s hi", str);
     // printf("\n");
     // ft_printf("%12.11s", str );
     // printf("\n");
@@ -664,7 +665,7 @@ int main(void)
     printf("res : %d\n", ft_printf("%2.3d", -1234));
     printf("res : %d\n", printf("%3.2d", -1234));
      printf("res : %d\n", ft_printf("%3.2d", -1234));
-     
+
     printf("res : %d\n", printf("%6.2d", -1234));
     printf("res : %d\n", ft_printf("%6.2d", -1234));
     printf("res : %d\n", printf("%5.2d", -1234));
@@ -672,3 +673,4 @@ int main(void)
      printf("res : %d\n", printf("%3.6d", -1234));
      printf("res : %d\n", ft_printf("%3.6d", -1234));
 }
+*/

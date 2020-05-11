@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/16 17:40:04 by jhur              #+#    #+#             */
-/*   Updated: 2020/03/22 23:44:06 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/11 14:42:33 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int     percent_conversion(t_list info)
 
     d_len = 1;
     ft_left_blank(info.width, d_len, info.zero_flag, info.left);
+    ft_left_zero(info.width, d_len, info.zero_flag, info.left);
     ft_putchar('%');
     ft_right_blank(info.width, d_len, info.left);
     if (info.width > 0)
@@ -68,11 +69,10 @@ int     s_conversion(va_list *ap, t_list info)
 {
     char *str;
     int d_len;
-    
+
     if (!(str = va_arg(*ap, char*)))
       str = "(null)";
     d_len = ft_strlen(str);
-    
     if (info.precision == 1)
         s_with_precision(info, d_len, str);
     else

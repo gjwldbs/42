@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/16 17:45:49 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/05 18:58:28 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/11 16:06:54 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,15 @@ int     ft_has_spec(t_list info, const char **format, va_list *ap)
     int result;
 
     result = 0;
-    if(**format == 'c' || **format == 'C')//하나의 문자
+    if(**format == 'c')//하나의 문자
         result = c_conversion(ap, info);
-    else if(**format == 's' || **format == 'S')
+    else if(**format == 's')
         result = s_conversion(ap, info);
     else if(**format == 'p')
         result = p_conversion(ap, info, *format);
-    else if(**format == 'd' || **format == 'i' || **format == 'D')
+    else if(**format == 'd' || **format == 'i')
         result = d_conversion(ap, info);
-    else if(**format == 'u' || **format == 'U')
+    else if(**format == 'u')
         result = u_conversion(ap, info);
     else if(**format == 'x')
         result = x_conversion(ap, info, *format);

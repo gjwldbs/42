@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/16 17:19:34 by jhur              #+#    #+#             */
-/*   Updated: 2020/03/16 17:32:43 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/11 14:43:04 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void    ft_precision_puts(const char *str, int p_len)
     int i;
 
     i = 0;
-    while(i < p_len)
+    while(i < p_len && *str)
     {
         ft_putchar(*str);
         str++;

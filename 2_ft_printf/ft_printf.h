@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/16 16:59:20 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/05 18:57:30 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/11 17:11:31 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #ifndef FT_PRINTF_H
 # define FT_PRINTF_H
 
-# include <stdio.h>
-# include <string.h>
-# include <stdlib.h>
-# include <stdarg.h>
-# include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdarg.h>
+#include <unistd.h>
 
 typedef struct s_list
 {
@@ -54,13 +54,14 @@ int     s_conversion(va_list *ap, t_list info);
 //p,d,i conversion
 int     p_conversion(va_list *ap, t_list info, const char *format);
 int     d_is_negative(t_list info, int d_len, int data);
-int     d_is_positive(t_list info, int d_len, int data);
-int     d_without_precision(t_list info, int d_len, int data);
+int     d_is_positive(t_list info, int d_len, long long data);
+int     d_without_precision(t_list info, int d_len, long long data);
 int     d_conversion(va_list *ap, t_list info);
+int    d_without_precision_neg(t_list info, int d_len, int data);
 //u,x,X conversion
 int     u_conversion(va_list *ap, t_list info);
-int     x_with_precision(t_list info, int d_len, int data, const char *format);
-int     x_without_precision(t_list info, int d_len, int data, const char *format);
+int     x_with_precision(t_list info, int d_len, long long data, const char *format);
+int     x_without_precision(t_list info, int d_len, long long data, const char *format);
 int     x_conversion(va_list *ap, t_list info, const char *format);
 //format processing
 void    ft_read_flag(t_list *info, const char **format);
