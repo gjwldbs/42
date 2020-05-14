@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/16 17:45:49 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/12 15:41:06 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/13 15:43:37 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_read_flag(t_list *info, const char **format)
 {
-	if (**format == '-')
+	while (**format == '-')
 	{
 		(*info).left = 1;
 		(*format)++;
@@ -71,15 +71,15 @@ int		ft_has_spec(t_list info, const char **format, va_list *ap)
 	int	result;
 
 	result = 0;
-	if (**format == 'c')
+	if (**format == 'c' || **format == 'C')
 		result = c_conversion(ap, info);
 	else if (**format == 's')
 		result = s_conversion(ap, info);
 	else if (**format == 'p')
 		result = p_conversion(ap, info, *format);
-	else if (**format == 'd' || **format == 'i')
+	else if (**format == 'd' || **format == 'i' || **format == 'D')
 		result = d_conversion(ap, info);
-	else if (**format == 'u')
+	else if (**format == 'u' || **format == 'U')
 		result = u_conversion(ap, info);
 	else if (**format == 'x')
 		result = x_conversion(ap, info, *format);
@@ -87,8 +87,6 @@ int		ft_has_spec(t_list info, const char **format, va_list *ap)
 		result = x_conversion(ap, info, *format);
 	else if (**format == '%')
 		result = percent_conversion(info);
-	else
-		result = 0;
 	return (result);
 }
 
@@ -112,10 +110,20 @@ int		ft_processing(const char **format, va_list *ap)
 		(*format)++;
 	}
 	(*format)++;
+	if (**format == '\0')
+		return (-1);
 	ft_read_flag(&info, format);
+	if (**format == '\0')
+		return (-1);
 	ft_has_width(&info, format, ap);
+	if (**format == '\0')
+		return (-1);
 	ft_has_precision(&info, format, ap);
+	if (**format == '\0')
+		return (-1);
 	result = ft_has_spec(info, format, ap) + count;
+	if (**format == '\0')
+		return (-1);
 	++(*format);
 	return (result);
 }

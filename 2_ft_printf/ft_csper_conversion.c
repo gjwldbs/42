@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/16 17:40:04 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/12 15:37:21 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/13 14:17:03 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	s_with_precision(t_list info, int d_len, char *str)
 	info.zero_flag = 0;
 	if (info.p_len < 0)
 	{
-		info.p_len *= -1;
+		if (info.p_len < d_len)
+			ft_left_blank(info.width, d_len, info.zero_flag, info.left);
 		ft_puts(str);
 		if (info.p_len < d_len)
 			ft_right_blank(info.width, d_len, info.left);

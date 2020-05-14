@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/16 16:59:20 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/12 16:06:24 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/13 15:43:34 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int				s_conversion(va_list *ap, t_list info);
 
 int				p_conversion(va_list *ap, t_list info, const char *format);
 
-int				d_is_negative(t_list info, int d_len, int data);
+int				d_is_negative(t_list info, int d_len, long long data);
 int				d_is_positive(t_list info, int d_len, long long data);
 int				d_without_precision(t_list info, int d_len, long long data);
 int				d_conversion(va_list *ap, t_list info);
