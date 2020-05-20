@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/18 14:38:56 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/19 15:33:02 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/20 16:47:15 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,14 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <errno.h>
 
 size_t	ft_strlen(const char *s);
 size_t ft_strcpy(char *dst, const char *src);
 ssize_t	ft_write(int fd, void const *buf, size_t nbyte);
 int ft_strcmp(const char *s1, const char *s2);
+char *ft_strdup(const char *s1);
+
 int main()
 {
 	char *s = "hell";
@@ -31,6 +34,12 @@ int main()
 	//printf("%d\n", ft_strcmp(d, s));
 	//printf("%d\n", strcmp(d, s));
 	//printf("%d", strcmp(d, s));
-	printf("%zd\n", ft_write(1, c, 4));
-	printf("%zd", write(1, c, 4));
+	//ft_write(1, s, 4);
+	//printf("%zd\n", ft_write(1, c, 4));
+	//printf("%d\n", errno);
+	//printf("%zd\n", write(1, c, 4));
+	//printf("%d\n", errno);
+	//ft_write(1, s, 4);
+	//write(1, s, 4);
+	printf("%s\n", ft_strdup(s));
 }
