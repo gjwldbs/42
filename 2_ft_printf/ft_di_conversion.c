@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/16 17:42:02 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/13 13:57:20 by jhur             ###   ########.fr       */
+/*   Updated: 2020/05/13 15:51:22 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,14 @@ int	d_is_negative(t_list info, int d_len, long long data)
 		info.zero_flag = 0;
 	data *= -1;
 	d_len -= 1;
-	if (info.p_len < d_len && !(info.p_len < 0 && info.zero_flag == 1 && info.left == 0))
+	if (info.p_len < d_len && !(info.p_len < 0
+	&& info.zero_flag == 1 && info.left == 0))
 		ft_left_blank(info.width, d_len + 1, info.zero_flag, info.left);
 	else
 		ft_left_blank(info.width, info.p_len + 1, info.zero_flag, info.left);
 	ft_putchar('-');
-	if (info.p_len < d_len && (info.p_len < 0 && info.zero_flag == 1 && info.left == 0))
+	if (info.p_len < d_len && (info.p_len < 0
+	&& info.zero_flag == 1 && info.left == 0))
 		ft_left_zero(info.width, d_len + 1, 1, 0);
 	ft_left_zero(info.p_len, d_len, 1, 0);
 	ft_putnbr(data);
