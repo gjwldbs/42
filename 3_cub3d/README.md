@@ -5,7 +5,7 @@
 ### :mag_right: Objective
 - to make a simple game by using raycasting like https://en.wikipedia.org/wiki/Wolfenstein_3D
 ![screenshot](./screenshot.png)
-![](cub3d.gif)
+![](./cub3d.gif)
 ### :mag_right: Commands
 - to play a game: ```make``` -> ```./cub3d map_basic.cub```
 - Left and Right **arrow keys** :  look left and right in the maze
