@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/18 14:38:56 by jhur              #+#    #+#             */
-/*   Updated: 2020/05/20 16:47:15 by jhur             ###   ########.fr       */
+/*   Updated: 2020/07/11 15:37:50 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ int main()
 	char *s = "hell";
 	char *d = "hello";
 	char *c = "";
+	char *b;
+	char *aa;
+	char *bb;
+	char *cc;
 	//printf("%zu\n", ft_strlen(s));
 	//ft_strcpy(d, s);
 	//printf("%s\n", d);
@@ -41,5 +45,6 @@ int main()
 	//printf("%d\n", errno);
 	//ft_write(1, s, 4);
 	//write(1, s, 4);
-	printf("%s\n", ft_strdup(s));
+	b = ft_strdup("hello");
+	printf("%s\n", b);
 }
