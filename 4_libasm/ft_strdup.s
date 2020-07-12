@@ -11,13 +11,14 @@ _ft_strdup:
 	add rax, 1 ;rax = length + 1 = result
 
 	push rdi
+	mov rdi, rax
 	call _malloc
 	pop rdi
 
-	push rbp
-	call ___error
-	pop rbp
-	jc error ;if malloc fails ENOMEM(12)
+	; push rbp
+	; call ___error
+	; pop rbp
+	; jc error ;if malloc fails ENOMEM(12)
 
 	push rsi
 	mov rsi, rdi

@@ -43,13 +43,13 @@ int main(void)
 	printf("%d\n", ft_strcmp("a", "aaaaa"));
 	printf("========ft_strdup=======\n");
 	a = ft_strdup("hello");
-	// b = ft_strdup("strdup is done!");
-	// c = ft_strdup("");
+	b = ft_strdup("strdup is done!");
+	c = ft_strdup("");
 	printf("%s\n", a);
-	// printf("%s\n", b);
-	// printf("%s\n", c);
+	printf("%s\n", b);
+	printf("%s\n", c);
 	free(a);
-	// free(b);
-	// free(c);
+	free(b);
+	free(c);
 	return (0);
 }

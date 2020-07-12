@@ -6,7 +6,7 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/05/18 14:38:56 by jhur              #+#    #+#             */
-/*   Updated: 2020/07/11 15:37:50 by jhur             ###   ########.fr       */
+/*   Updated: 2020/07/12 13:08:26 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 #include <stdlib.h>
 #include <errno.h>
 
-size_t	ft_strlen(const char *s);
-size_t ft_strcpy(char *dst, const char *src);
-ssize_t	ft_write(int fd, void const *buf, size_t nbyte);
-int ft_strcmp(const char *s1, const char *s2);
+// size_t	ft_strlen(const char *s);
+// size_t ft_strcpy(char *dst, const char *src);
+// ssize_t	ft_write(int fd, void const *buf, size_t nbyte);
+// int ft_strcmp(const char *s1, const char *s2);
 char *ft_strdup(const char *s1);
 
 int main()
@@ -27,7 +27,7 @@ int main()
 	char *s = "hell";
 	char *d = "hello";
 	char *c = "";
-	char *b;
+	// char *b;
 	char *aa;
 	char *bb;
 	char *cc;
@@ -45,6 +45,7 @@ int main()
 	//printf("%d\n", errno);
 	//ft_write(1, s, 4);
 	//write(1, s, 4);
-	b = ft_strdup("hello");
-	printf("%s\n", b);
+	char *b = ft_strdup("hello");
+	char *str = ft_strdup("hey");
+	printf("%s\n%s\n", b, str);
 }
