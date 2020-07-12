@@ -15,10 +15,10 @@ _ft_strdup:
 	call _malloc
 	pop rdi
 
-	; push rbp
-	; call ___error
-	; pop rbp
-	; jc error ;if malloc fails ENOMEM(12)
+	push rbp
+	call ___error
+	pop rbp
+	jc error ;if malloc fails ENOMEM(12)
 
 	push rsi
 	mov rsi, rdi
