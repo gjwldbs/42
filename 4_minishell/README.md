@@ -4,3 +4,4 @@
 + score : 100
 ### :mag_right: Objective
 - to make a shell works like bash shell
+![](./minishell.gif)
