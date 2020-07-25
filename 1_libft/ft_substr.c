@@ -6,12 +6,20 @@
 /*   By: jhur <marvin@42.fr>                        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 17:20:14 by jhur              #+#    #+#             */
-/*   Updated: 2020/04/15 00:44:09 by jhur             ###   ########.fr       */
+/*   Updated: 2020/06/15 16:33:59 by jhur             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+int	ft_strlen(char *s)
+{
+	int i;
 
+	i = 0;
+	while(s[i])//while(*s++)
+		i++;
+	return(i);
+}
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	char	*ptr;
