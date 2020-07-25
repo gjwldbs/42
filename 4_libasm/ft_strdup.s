@@ -15,10 +15,8 @@ _ft_strdup:
 	call _malloc
 	pop rdi
 
-	push rbp
-	call ___error
-	pop rbp
-	jc error ;if malloc fails ENOMEM(12)
+	cmp rax, 0
+	jc error 
 
 	push rsi
 	mov rsi, rdi
@@ -27,6 +25,9 @@ _ft_strdup:
 	pop rsi
 
 	ret
+
 error:
+	call ___error;if malloc fails ENOMEM(12)
 	mov [rbx], rax
+	mov rax, 0
 	ret
