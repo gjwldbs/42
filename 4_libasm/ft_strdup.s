@@ -16,7 +16,7 @@ _ft_strdup:
 	pop rdi
 
 	cmp rax, 0
-	jc error 
+	jc error
 
 	push rsi
 	mov rsi, rdi
@@ -28,6 +28,6 @@ _ft_strdup:
 
 error:
 	call ___error;if malloc fails ENOMEM(12)
-	mov [rbx], rax
+	mov [rax], rax
 	mov rax, 0
 	ret
