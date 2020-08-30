@@ -2,8 +2,6 @@ NA = nasm
 NA_FLAG = -f macho64
 
 NAME = libasm.a
-CC = gcc
-CFLAGS = -Wall -Wextra -Werror
 
 SRCS = $(wildcard *.s)
 
@@ -14,7 +12,7 @@ all: $(NAME)
 $(NAME) : $(OBJS)
 	ar cr $@ $^
 
-%.o: %.s $(INCS)
+%.o: %.s
 		$(NA) $(NA_FLAG) -s $< -o $@
 
 clean:
