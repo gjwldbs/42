@@ -9,10 +9,10 @@ echo "FLUSH PRIVILEGES;"| mysql -u root --skip-password
 echo "update mysql.user set plugin='' where user='root';"| mysql -u root --skip-password
 
 #install wordpress
-cd /tmp/
-wget -c https://wordpress.org/latest.tar.gz
-tar -xvzf latest.tar.gz
-mv wordpress/ /var/www/html
-mv /tmp/wp-config.php /var/www/html
+# cd /tmp/
+# wget -c https://wordpress.org/latest.tar.gz
+# tar -xvzf latest.tar.gz
+# mv wordpress/ /var/www/html
+# mv /tmp/wp-config.php /var/www/html
 
 bash
