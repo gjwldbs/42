@@ -15,4 +15,4 @@
 |5|[CPP Module 08](https://github.com/jiyoon1156/CPP_Module)|Learn OOP from CPP|2020.09.05|
 |6|[webserv](https://github.com/jiyoon1156/webserv)|Implement HTTP server by socket programming|2020.10.16|
 |6|[ft_containers](https://github.com/jiyoon1156/ft_containers)|Implement containers in CPP|2020.12.25|
-|7|[ft_transcendance](https://github.com/AYOKINYA/ft_transcendence)|Build a website|2021.01.|
+|7|[ft_transcendance](https://github.com/AYOKINYA/ft_transcendence)|Build a website|2021.01.24|
